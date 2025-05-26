@@ -4,17 +4,17 @@ void InternetGetConnectedStateExW
 
 {
   uint uVar1;
-  char cVar2;
+  char returned_char;
   DWORD error_code;
-  int iVar3;
+  int r;
   int isconnectedstate;
   undefined4 result;
-  undefined8 uVar4;
-  uint uVar5;
+  undefined8 uVar2;
+  uint flags;
   int use_connection_name;
-  int iVar6;
-  undefined2 *puVar7;
-  undefined2 *puVar8;
+  int iVar3;
+  undefined2 *puVar4;
+  undefined2 *puVar5;
   undefined1 auStack_88 [32];
   int local_68;
   int local_60;
@@ -29,7 +29,7 @@ void InternetGetConnectedStateExW
   if ((DAT_180269150 & 8) != 0) {
     local_68 = connection_name_len;
     local_60 = param4;
-    FUN_1801d8c40(0x1c,&DAT_180204130,status,connection_name);
+    Log(0x1c,&DAT_180204130,status,connection_name);
   }
                     /* Initialize Local Vars
                        Default fallback connection name pointer */
@@ -37,7 +37,7 @@ void InternetGetConnectedStateExW
   isconnectedstate = 0;
   use_connection_name = 0;
   local_48 = 0;
-  puVar7 = (undefined2 *)0x0;
+  puVar4 = (undefined2 *)0x0;
   if (status != (uint *)0x0) {
     *status = 0;
   }
@@ -45,8 +45,8 @@ void InternetGetConnectedStateExW
     *connection_name = L'\0';
   }
                     /* Check If system is in "Offline Mode" */
-  cVar2 = FUN_18014e8a0();
-  if (cVar2 == '\0') {
+  returned_char = IsOfflineModeEnabled();
+  if (returned_char == '\0') {
                     /* If not offline, use fallback connectivity check */
     result = FUN_180148fe4(status,connection_name,connection_name_len);
     if ((DAT_180269150 & 8) != 0) {
@@ -59,39 +59,39 @@ void InternetGetConnectedStateExW
     if (error_code == 0) {
       if (param4 == 0) {
         EnterCriticalSection((LPCRITICAL_SECTION)&DAT_18026ac70);
-        iVar3 = FUN_18001eacc(&default_connection);
-        puVar8 = default_connection;
-        uVar5 = 0x10;
-        if (iVar3 == 0) {
-          iVar3 = FUN_18001e860();
-          puVar8 = (undefined2 *)0x0;
-          iVar6 = 0;
-          if (iVar3 != 0) {
-            uVar5 = 0x12;
+        r = FUN_18001eacc(&default_connection);
+        puVar5 = default_connection;
+        flags = 0x10;
+        if (r == 0) {
+          r = FUN_18001e860();
+          puVar5 = (undefined2 *)0x0;
+          iVar3 = 0;
+          if (r != 0) {
+            flags = 0x12;
             isconnectedstate = FUN_18001efc8(0,0,0);
-            puVar8 = puVar7;
-            iVar6 = use_connection_name;
+            puVar5 = puVar4;
+            iVar3 = use_connection_name;
             if ((connection_name != (LPWSTR)0x0) && (connection_name_len != 0)) {
               LoadStringW(DAT_18026b860,0xfad,connection_name,connection_name_len);
             }
           }
         }
         else {
-          uVar5 = 0x11;
-          iVar6 = 1;
+          flags = 0x11;
+          iVar3 = 1;
           isconnectedstate = FUN_18001efc8(default_connection,0,0);
         }
         if (isconnectedstate != 0) {
-          iVar6 = 1;
+          iVar3 = 1;
         }
-        uVar1 = uVar5 | 4;
+        uVar1 = flags | 4;
         if (isconnectedstate == 0) {
-          uVar1 = uVar5;
+          uVar1 = flags;
         }
-        local_58 = iVar6;
+        local_58 = iVar3;
         if ((((connection_name != (LPWSTR)0x0) && (connection_name_len != 0)) &&
-            (puVar8 != (undefined2 *)0x0)) &&
-           (isconnectedstate = FUN_1800fec64(connection_name,connection_name_len,puVar8,0x101),
+            (puVar5 != (undefined2 *)0x0)) &&
+           (isconnectedstate = FUN_1800fec64(connection_name,connection_name_len,puVar5,0x101),
            isconnectedstate < 0)) {
           if ((DAT_180269150 & 8) != 0) {
             FUN_1801ea750(0x21,&DAT_180204130,isconnectedstate);
@@ -104,14 +104,14 @@ void InternetGetConnectedStateExW
           SetLastError(error_code);
         }
         if (status != (uint *)0x0) {
-          uVar5 = uVar1 | 0x40;
+          flags = uVar1 | 0x40;
           if (local_58 == 0) {
-            uVar5 = uVar1;
+            flags = uVar1;
           }
-          *status = uVar5;
+          *status = flags;
         }
         if ((DAT_180269150 & 8) != 0) {
-          FUN_1801ea750(0x22,&DAT_180204130,iVar3);
+          FUN_1801ea750(0x22,&DAT_180204130,r);
         }
         SetLastError(0);
         LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_18026ac70);
@@ -120,7 +120,7 @@ void InternetGetConnectedStateExW
             HeapFree(DAT_18026c330,0,default_connection);
           }
           else {
-            FUN_1801f2010(default_connection);
+            CustomFree(default_connection);
           }
         }
         goto LAB_18001edfc;
@@ -131,22 +131,23 @@ void InternetGetConnectedStateExW
         FUN_1801ea750(0x1f,&DAT_180204130,0x57);
       }
       if ((DAT_180269150 & 8) != 0) {
-        uVar4 = 0x20;
+        uVar2 = 0x20;
         goto LAB_18001ef6f;
       }
     }
     else {
       SetLastError(error_code);
       if ((DAT_180269150 & 8) != 0) {
-        uVar4 = 0x1e;
+        uVar2 = 0x1e;
 LAB_18001ef6f:
-        FUN_1801ea750(uVar4,&DAT_180204130,0);
+        FUN_1801ea750(uVar2,&DAT_180204130,0);
       }
     }
   }
   FUN_180021f70(&default_connection);
 LAB_18001edfc:
   FUN_18014bd50(stack_cookie ^ (ulonglong)auStack_88);
+  
   return;
 }
 

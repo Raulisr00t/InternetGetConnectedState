@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <wininet.h>
+// This API -> InternetGetConnectedState uses InternetGetConnectedStateEx function and it's works not correctly , Check It when you develop user's internet connection depended apps
 
 int CheckConnection() {
     DWORD flag;

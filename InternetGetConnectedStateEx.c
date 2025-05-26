@@ -47,11 +47,12 @@ void InternetGetConnectedStateExW
                     /* Check If system is in "Offline Mode" */
   returned_char = IsOfflineModeEnabled();
   if (returned_char == '\0') {
-                    /* If not offline, use fallback connectivity check */
-    result = FUN_180148fe4(status,connection_name,connection_name_len);
+                    /* If not offline, use fallback connectivity check
+                       Called if not offline; sets status, maybe checks adapter/DNS. */
+    result = FallbackConnectivityCheck(status,connection_name,connection_name_len);
     if ((DAT_180269150 & 8) != 0) {
                     /* Log the result if needed */
-      FUN_1801ea750(0x1d,&DAT_180204130,result);
+      LogEvent(0x1d,&DAT_180204130,result);
     }
   }
   else {
@@ -59,16 +60,16 @@ void InternetGetConnectedStateExW
     if (error_code == 0) {
       if (param4 == 0) {
         EnterCriticalSection((LPCRITICAL_SECTION)&DAT_18026ac70);
-        r = FUN_18001eacc(&default_connection);
+        r = GetConfiguredConnection(&default_connection);
         puVar5 = default_connection;
         flags = 0x10;
         if (r == 0) {
-          r = FUN_18001e860();
+          r = CheckForLANConnection();
           puVar5 = (undefined2 *)0x0;
           iVar3 = 0;
           if (r != 0) {
             flags = 0x12;
-            isconnectedstate = FUN_18001efc8(0,0,0);
+            isconnectedstate = TestInternetConnectivity(0,0,0);
             puVar5 = puVar4;
             iVar3 = use_connection_name;
             if ((connection_name != (LPWSTR)0x0) && (connection_name_len != 0)) {
@@ -79,7 +80,8 @@ void InternetGetConnectedStateExW
         else {
           flags = 0x11;
           iVar3 = 1;
-          isconnectedstate = FUN_18001efc8(default_connection,0,0);
+                    /* Final Internet Connectionn Test I assume */
+          isconnectedstate = TestInternetConnectivity(default_connection,0,0);
         }
         if (isconnectedstate != 0) {
           iVar3 = 1;
@@ -94,7 +96,7 @@ void InternetGetConnectedStateExW
            (isconnectedstate = FUN_1800fec64(connection_name,connection_name_len,puVar5,0x101),
            isconnectedstate < 0)) {
           if ((DAT_180269150 & 8) != 0) {
-            FUN_1801ea750(0x21,&DAT_180204130,isconnectedstate);
+            LogEvent(0x21,&DAT_180204130,isconnectedstate);
           }
           *connection_name = L'\0';
           error_code = 0x7a;
@@ -111,7 +113,7 @@ void InternetGetConnectedStateExW
           *status = flags;
         }
         if ((DAT_180269150 & 8) != 0) {
-          FUN_1801ea750(0x22,&DAT_180204130,r);
+          LogEvent(0x22,&DAT_180204130,r);
         }
         SetLastError(0);
         LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_18026ac70);
@@ -123,12 +125,12 @@ void InternetGetConnectedStateExW
             CustomFree(default_connection);
           }
         }
-        goto LAB_18001edfc;
+        goto CleanUP;
       }
                     /* ERROR Invalid Parametr */
       SetLastError(0x57);
       if (((byte)DAT_180269148 & 8) != 0) {
-        FUN_1801ea750(0x1f,&DAT_180204130,0x57);
+        LogEvent(0x1f,&DAT_180204130,0x57);
       }
       if ((DAT_180269150 & 8) != 0) {
         uVar2 = 0x20;
@@ -140,13 +142,14 @@ void InternetGetConnectedStateExW
       if ((DAT_180269150 & 8) != 0) {
         uVar2 = 0x1e;
 LAB_18001ef6f:
-        FUN_1801ea750(uVar2,&DAT_180204130,0);
+        LogEvent(uVar2,&DAT_180204130,0);
       }
     }
   }
-  FUN_180021f70(&default_connection);
-LAB_18001edfc:
-  FUN_18014bd50(stack_cookie ^ (ulonglong)auStack_88);
+  CleanupConnectionPointer(&default_connection);
+  
+CleanUP:
+  VerifyStackCookie(stack_cookie ^ (ulonglong)auStack_88);
   
   return;
 }

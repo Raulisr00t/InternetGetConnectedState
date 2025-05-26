@@ -58,6 +58,8 @@ DisableProxyAuthenticationSchemes
 DisableProxyLinkLocalNameResolution
 
 EnableInsecureTlsFallback
+
+EnableTcpFastOpen
 ```
 
 ## ⚠️ Research Note: API Usage Advice

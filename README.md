@@ -46,16 +46,6 @@ Use this project to:
   - `HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings`
   - `HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings`
 
-## 👤 Author
-
-Reverse engineering and documentation by Raul.
-
----
-
-**Contributions, suggestions, or corrections are welcome!**
-
----
-
 ## ⚠️ Research Note: API Usage Advice
 
 The `InternetGetConnectedStateExW` function relies heavily on registry values and internal heuristics — which **can be easily manipulated or spoofed** in sandbox or defensive environments. As such, it is **not reliable** for determining real Internet connectivity in adversarial contexts.
@@ -74,3 +64,13 @@ These approaches perform **actual network activity**, which is harder to fake an
 ---
 
 **Knowledge is neutral — use it responsibly.**
+
+## 👤 Author
+
+Reverse engineering and documentation by Raul.
+
+---
+
+**Contributions, suggestions, or corrections are welcome!**
+
+---

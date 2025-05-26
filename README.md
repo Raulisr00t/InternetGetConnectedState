@@ -14,13 +14,6 @@ This repository contains a reverse engineering analysis of the `wininet.dll` lib
   - Red team emulation
   - Security research
 
-## 📁 Contents
-
-- `disasm/` — Decompiled or disassembled code of `wininet.dll` functions.
-- `registry_map.md` — Documented registry keys relevant to connectivity checks.
-- `notes.md` — Technical observations, commentary, and PoCs (proof of concepts).
-- `patches/` — Optional hooks or patches to manipulate perceived connectivity.
-
 ## ⚠️ Security Research Disclaimer
 
 This repository is intended for **educational and research purposes only**. The goal is to understand Windows internals and aid defensive and analytical efforts. Do not use this knowledge to build or support malicious tools.

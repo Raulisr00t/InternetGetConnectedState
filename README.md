@@ -72,7 +72,7 @@ For more accurate network checks, consider using:
 
 - `getaddrinfo()`, `connect()`, or raw `socket()` calls to known Internet IPs
 - `WinHttpSendRequest()` with `WinHttpOpenRequest()` for outbound HTTP checks
-- `InternetCheckConnection` function in `wininet.dll`
+- `InternetCheckConnection` function in `wininet.dll` (more reliable)
 - `Custom TCP/UDP probes or DNS resolution attempts`
 
 These approaches perform **actual network activity**, which is harder to fake and provides stronger assurance of real connectivity.

@@ -46,20 +46,19 @@ HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Internet Se
 ## 🔍 Queried Values
 
 Here are the specific values being read from the above paths:
-
+```
 DisableCachingOfSSLPages
+
 DisableHttp2ConnectionSharing
+
 EnableTlsAnonymousClientAuthFallback
+
 DisableProxyAuthenticationSchemes
+
 DisableProxyLinkLocalNameResolution
+
 EnableInsecureTlsFallback
-
-## 📚 References
-
-- [Microsoft Docs – InternetGetConnectedStateExW](https://learn.microsoft.com/en-us/windows/win32/api/wininet/nf-wininet-internetgetconnectedstateexw)
-- Internal Windows registry paths:
-  - `HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings`
-  - `HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings`
+```
 
 ## ⚠️ Research Note: API Usage Advice
 
@@ -84,6 +83,13 @@ These approaches perform **actual network activity**, which is harder to fake an
 Reverse engineering and documentation by Raul.
 
 ---
+
+## 📚 References
+
+- [Microsoft Docs – InternetGetConnectedStateExW](https://learn.microsoft.com/en-us/windows/win32/api/wininet/nf-wininet-internetgetconnectedstateexw)
+- Internal Windows registry paths:
+  - `HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings`
+  - `HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings`
 
 **Contributions, suggestions, or corrections are welcome!**
 

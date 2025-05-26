@@ -1,1 +1,1 @@
-# DON'T Use InterntGetConnectedState API for checking user's Internet Connection
+# DON'T Use InterntGetConnectedState API For Checking User's Internet Connection

@@ -147,8 +147,9 @@ LAB_18001ef6f:
     }
   }
   CleanupConnectionPointer(&default_connection);
-  
+
 CleanUP:
+
   VerifyStackCookie(stack_cookie ^ (ulonglong)auStack_88);
   
   return;

@@ -32,6 +32,28 @@ Use this project to:
 - Study how legacy Windows APIs behave under different configurations
 - Patch wininet behavior for testing or research
 
+## 📚 Registry Paths Accessed by InternetGetConnectedStateExW
+✅ Read Operations
+
+These registry keys are accessed to read configuration or policy enforcement settings:
+```registry
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Internet Settings
+HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Internet Settings
+```
+
+## 🔍 Queried Values
+
+Here are the specific values being read from the above paths:
+
+DisableCachingOfSSLPages
+DisableHttp2ConnectionSharing
+EnableTlsAnonymousClientAuthFallback
+DisableProxyAuthenticationSchemes
+DisableProxyLinkLocalNameResolution
+EnableInsecureTlsFallback
+
 ## 📚 References
 
 - [Microsoft Docs – InternetGetConnectedStateExW](https://learn.microsoft.com/en-us/windows/win32/api/wininet/nf-wininet-internetgetconnectedstateexw)

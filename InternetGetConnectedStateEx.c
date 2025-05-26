@@ -50,6 +50,7 @@ void InternetGetConnectedStateExW
                     /* If not offline, use fallback connectivity check */
     result = FUN_180148fe4(status,connection_name,connection_name_len);
     if ((DAT_180269150 & 8) != 0) {
+                    /* Log the result if needed */
       FUN_1801ea750(0x1d,&DAT_180204130,result);
     }
   }

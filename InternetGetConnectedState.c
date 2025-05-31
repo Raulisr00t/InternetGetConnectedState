@@ -1,19 +1,20 @@
-BOOL InternetGetConnectedState(longlong flag,longlong some_param)
+BOOL InternetGetConnectedState(longlong flags,undefined4 param2)
 
 {
   BOOL isconnected;
   
-                    /* 0x11d6b0  293  InternetGetConnectedState */
-  if ((DAT_180269150 & 8) != 0) {
-    FUN_1801ed788(0x18,&DAT_18022f798,flag,some_param & 0xffffffffU);
+                    /* 0x11d6b0  293  InternetGetConnectedState
+                       If debug/log flag is set, log the function call with parameters */
+  if ((debug_flags & 8) != 0) {
+    FirstLogFunction(0x18,&log_context,flags,param2);
   }
-  if ((flag == 0) && ((DAT_180269150 & 8) != 0)) {
-    FUN_1801ecb68(0x19,&DAT_18022f798);
+  if ((flags == 0) && ((debug_flags & 8) != 0)) {
+    SecondLogFunction(0x19,&log_context);
   }
-                    /* Checking Internet Connection via InternetGetConnectedStateEx API */
-  isconnected = InternetGetConnectedStateExW(flag,0,0,some_param & 0xffffffffU);
-  if ((DAT_180269150 & 8) != 0) {
-    FUN_1801ea750(26,&DAT_18022f798,isconnected);
+                    /* // Main call to the extended version of the function */
+  isconnected = InternetGetConnectedStateExW(flags,0,0,param2);
+  if ((debug_flags & 8) != 0) {
+    LogEvent(26,&log_context,isconnected);
   }
   return isconnected;
 }
